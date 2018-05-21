@@ -13,6 +13,10 @@ func SimpleHandler(tag Tag, content string) string {
 	return fmt.Sprintf("<%s>%s</%s>", tag.Name, content, tag.Name)
 }
 
+func TextAlignHandler(tag Tag, content string) string {
+	return fmt.Sprintf("<div style=\"text-align:%s;\">%s</div>", tag.Name, content)
+}
+
 // FontColorHandler - parse color tag with color attribute
 func FontColorHandler(tag Tag, content string) string {
 	var colorAttr string

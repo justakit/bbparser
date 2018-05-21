@@ -36,14 +36,14 @@ func NewDefault() *Parser {
 	parser.Handlers["i"] = SimpleHandler
 	parser.Handlers["u"] = SimpleHandler
 	parser.Handlers["s"] = SimpleHandler
-	parser.Handlers["left"] = SimpleHandler
-	parser.Handlers["center"] = SimpleHandler
-	parser.Handlers["right"] = SimpleHandler
 	parser.Handlers["ul"] = SimpleHandler
 	parser.Handlers["ol"] = SimpleHandler
 	parser.Handlers["li"] = SimpleHandler
 
 	//complex handlers
+	parser.Handlers["left"] = TextAlignHandler
+	parser.Handlers["center"] = TextAlignHandler
+	parser.Handlers["right"] = TextAlignHandler
 	parser.Handlers["color"] = FontColorHandler
 	parser.Handlers["size"] = FontSizeHandler
 	parser.Handlers["url"] = URLHandler
