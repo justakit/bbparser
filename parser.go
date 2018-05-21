@@ -1,6 +1,7 @@
 package bbparser
 
 import (
+	"html"
 	"strings"
 )
 
@@ -73,6 +74,7 @@ func (p *Parser) AddSpecialString(old, new string) {
 
 // Parse - parse given string with parser settings
 func (p *Parser) Parse(str string) string {
+	str = html.EscapeString(str)
 	for i := 0; i < len(str)-1; i++ {
 		if str[i] == '[' {
 			for j := i + 1; j < len(str); j++ {
@@ -135,21 +137,27 @@ func (p *Parser) parseTag(raw string) Tag {
 }
 
 func (p *Parser) findEnd(str, tagName string) (int, int, bool) {
+	var count int
 	for i := 0; i < len(str)-1; i++ {
 		if str[i] == '[' {
 			for j := i + 1; j < len(str); j++ {
 				var tag Tag
 				if str[j] == ']' {
 					tag = p.parseTag(str[i+1 : j])
-					if tag.Closing {
-						if tag.Name == tagName {
-							return i, j, true
+					if tag.Name == tagName {
+						if tag.Closing {
+							if count == 0 {
+								return i, j, true
+							}
+							count--
+							i = j
+							break
 						}
+						count++
 					}
 					i = j
 					break
 				}
-
 			}
 		}
 	}
